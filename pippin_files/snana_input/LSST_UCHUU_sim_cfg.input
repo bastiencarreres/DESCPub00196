@@ -1,0 +1,62 @@
+KCOR_FILE: $SNANA_LSST_ROOT/kcor/2017-04_approx/kcor_LSST.fits
+
+# --------------------------------------------------
+# From SIMLIB_FILE
+
+GENRANGE_PEAKMJD: 60750.0 64470.0  # PEAKMJD cut is wider to catch rise time
+GENRANGE_MJD: 60796.0014 64448.4293
+SOLID_ANGLE: 6.182
+TOTAL_AREA: 20295.012
+
+GENFILTERS:   ugrizY
+
+GENTYPE: 1
+GENMODEL:  SALT3.DES5YR
+
+GENRANGE_REDSHIFT:  0.011  0.17
+GENRANGE_TREST: -30 60
+# ---------------------------------------------------
+#   
+
+SIMLIB_MAXOBS: 20000 # Max obs in simlib used
+
+# ---------------------------------------------------
+# MW DUST 
+
+RV_MWCOLORLAW: 3.1
+OPT_MWEBV:      3    # 3=Schlaffly 2011
+OPT_MWCOLORLAW: 99   # 99=Fitzpatrick99
+
+# ----------------------------------------------------
+SMEARFLAG_FLUX:    1   # photo-stat smearing of signal, sky, etc ...
+SMEARFLAG_ZEROPT:  3   # +=1->apply scatter, +=2->add to FLUXERRCAL
+
+DNDZ: POWERLAW 2.06E-5 1.7 # Frohmaier 2019 rescale to h = 0.6774
+
+# -------------------------------
+APPLY_SEARCHEFF_OPT:  1 # Pass trigers
+APPLY_CUTWIN_OPT:     1
+CUTWIN_NEPOCH:        5 5.              # require 5 epochs 
+CUTWIN_SNRMAX:     5. griz 2 -20. 60.     # require 2 of griz with S/N > 5.
+CUTWIN_TRESTMIN: -20  -5
+CUTWIN_TRESTMAX:   5. 40.
+CUTWIN_MWEBV:      0 .25
+
+SEARCHEFF_PIPELINE_EFF_FILE: $SNANA_LSST_ROOT/models/searcheff/SEARCHEFF_PIPELINE_LSST_DC2_Run2.2i_WFD.DAT
+SEARCHEFF_PIPELINE_LOGIC_FILE: $SNANA_LSST_ROOT/models/searcheff/SEARCHEFF_PIPELINE_LOGIC_DC2_Run2.2i_WFD.DAT
+
+# -----------------------
+# cosmological params for lightcurve generation and redshift distribution
+OMEGA_MATTER:  0.3089
+OMEGA_LAMBDA:  0.6911
+W0_LAMBDA:    -1.00
+H0:            67.74
+
+# -----------------------------------
+# HOSTLIB -> Peculiar velocity field 
+# -----------------------------------
+
+HOSTLIB_STOREPAR: VPEC,ZTRUE_CMB,GROUPID
+
+# -----------------------
+SIMGEN_DUMPALL:  8  CID Z MJD0 S2mb  S2c S2x1  SIM_SEARCHEFF_MASK GALZDIF

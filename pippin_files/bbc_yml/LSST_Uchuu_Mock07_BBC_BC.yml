@@ -1,0 +1,63 @@
+# % include: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/global_cfg/sim_aliases.yml %
+
+ALIAS:
+  MOCK_NUMBER: &mock_number 
+    HOSTLIB_FILE: $SNANA_LSST_USERS/bastienc/UchuuCatalogs/UchuuDR2_UM/SNANA_SIMLIB/baseline_v3.3_10yrs/baseline_v3.3_10yrs_UchuuDR2_UM_z0p00_zmax0p1739_mock_07_SNANA.HOSTLIB
+    SIMLIB_FILE: $SNANA_LSST_USERS/bastienc/UchuuCatalogs/UchuuDR2_UM/SNANA_SIMLIB/baseline_v3.3_10yrs/baseline_v3.3_10yrs_UchuuDR2_UM_z0p00_zmax0p1739_mock_07_SNANA.SIMLIB
+SIM:
+  LSST_RNDSMEAR_BBC:
+    IA_SALT2_RNDSMEAR:
+      <<: *salt2_rndsmear_bbc
+      <<: *mock_number
+    GLOBAL:
+      <<: *global_simpar_bbc
+  LSST_G10_BBC:
+    IA_SALT2_G10:
+       <<: *salt2_g10_bbc
+       <<: *mock_number
+    GLOBAL:
+       <<: *global_simpar_bbc
+  LSST_C11_BBC:
+    IA_SALT2_C11:
+      <<: *salt2_c11_bbc
+      <<: *mock_number
+    GLOBAL:
+      <<: *global_simpar_bbc
+  LSST_P21_BBC:
+    IA_SALT2_P21:
+      <<: *salt2_p21_bbc
+      <<: *mock_number
+    GLOBAL:
+      <<: *global_simpar_bbc
+  LSST_BS20_BBC:
+    IA_SALT2_BS20:
+      <<: *salt2_bs20_bbc
+      <<: *mock_number
+    GLOBAL:
+      <<: *global_simpar_bbc
+  LSST_P21SYS1_BBC:
+    IA_SALT2_P21SYS1:
+      <<: *salt2_p21sys1_bbc
+      <<: *mock_number
+    GLOBAL:
+      <<: *global_simpar_bbc
+  LSST_P21SYS2_BBC:
+    IA_SALT2_P21SYS2:
+      <<: *salt2_p21sys2_bbc
+      <<: *mock_number
+    GLOBAL:
+      <<: *global_simpar_bbc  
+  LSST_P21SYS3_BBC:
+    IA_SALT2_P21SYS3:
+      <<: *salt2_p21sys3_bbc
+      <<: *mock_number
+    GLOBAL:
+      <<: *global_simpar_bbc
+LCFIT:
+  LSST_FIT:
+    MASK: LSST
+    # The base nml file used 
+    BASE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/fit_cfg.nml
+    OPTS:
+      BATCH_INFO: sbatch $SBATCH_TEMPLATES/SBATCH_DEFAULT.TEMPLATE 50
+

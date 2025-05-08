@@ -1,0 +1,76 @@
+# % include: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/global_cfg/bbc_aliases.yml %
+# % include: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/global_cfg/external_aliases.yml %
+
+# ---------------
+# Actions to run
+# ---------------
+LCFIT:
+  LSST_FIT:
+    MASK: LSST
+    # The base nml file used 
+    BASE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/fit_cfg.nml
+    OPTS:
+      BATCH_INFO: sbatch $SBATCH_TEMPLATES/SBATCH_DEFAULT.TEMPLATE 20
+    <<: *external_bbc_fit
+
+CLASSIFICATION:
+  PERFECT:
+    CLASSIFIER: PerfectClassifier
+    MODE: predict
+    MASK: LSST
+    OPTS:
+      PROB_IA: 1.0  # Probs to use for Ia events, default 1.0
+      PROB_CC: 0.0  # Probs to use for CC events, default 0.0
+
+AGGREGATION:
+  AGG:
+MERGE:
+  MERGE:
+
+BIASCOR:
+  LSST_RNDSMEAR:
+    DATA: [LSST_FIT_LSST_RNDSMEAR]
+    SIMFILE_BIASCOR: [LSST_FIT_LSST_RNDSMEAR_BBC]
+    <<: *bbc_routine
+  
+  LSST_G10:
+    # The names of the lcfits_data/simulations going in. List format please. Note LcfitLabel_SimLabel format
+    DATA: [LSST_FIT_LSST_G10]
+    # Input Ia bias correction simulations to be concatenated
+    SIMFILE_BIASCOR: [LSST_FIT_LSST_G10_BBC]
+    <<: *bbc_routine
+
+  LSST_C11:
+    # The names of the lcfits_data/simulations going in. List format please. Note LcfitLabel_SimLabel format
+    DATA: [LSST_FIT_LSST_C11]
+    # Input Ia bias correction simulations to be concatenated
+    SIMFILE_BIASCOR: [LSST_FIT_LSST_C11_BBC]
+    <<: *bbc_routine
+
+  LSST_P21:
+    # The names of the lcfits_data/simulations going in. List format please. Note LcfitLabel_SimLabel format
+    DATA: [LSST_FIT_LSST_P21]
+    # Input Ia bias correction simulations to be concatenated
+    SIMFILE_BIASCOR: [LSST_FIT_LSST_P21_BBC]   
+    <<: *bbc_routine_P21
+
+
+# CREATE_COV:
+#   UNBINNED_COV: 
+#     MASK: LSST_P21
+#     OPTS:
+#       BINNED: false
+#       MUOPT_SCALES:
+#         INTRSC_P21SYS1: 0.577
+#         INTRSC_P21SYS2: 0.577
+#         INTRSC_P21SYS3: 0.577 
+#       COVOPTS:
+#         - "[NOSYS] [=DEFAULT, =DEFAULT]"
+#         - "[BS20] [=DEFAULT,=INTRSC_BS20]"
+#         - "[P21SYS1] [=DEFAULT,=INTRSC_P21SYS1]"
+#         - "[P21SYS2] [=DEFAULT,=INTRSC_P21SYS2]"
+#         - "[P21SYS3] [=DEFAULT,=INTRSC_P21SYS3]"
+#       BATCH_FILE: $SBATCH_TEMPLATES/SBATCH_DEFAULT.TEMPLATE
+#       BATCH_REPLACE:
+#         REPLACE_WALLTIME: "24:00:00"
+#         REPLACE_MEM: 200GB

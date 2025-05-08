@@ -1,0 +1,70 @@
+CONFIG:
+  BATCH_INFO: sbatch $SBATCH_TEMPLATES/SBATCH_DEFAULT.TEMPLATE 2
+  BATCH_MEM: 32000
+  INPDIR+: []
+#END_YAML
+
+# General Fit options
+redchi2_tol=.01
+dumpflag_nobiascor=5
+iflag_duplicate=0
+
+# Cuts
+CUTWIN x1ERR 0. 1.
+CUTWIN cERR 0. 1.5
+CUTWIN PKMJDERR  0. 2.0
+CUTWIN FITPROB 0.001 1.1
+chi2max=16 # chi2max cut applied to all events
+
+# Bins def
+min_per_zbin=1
+nzbin=10
+zmin=0.02
+zmax=0.1
+x1min=-3.0
+x1max=+3.0
+cmin=-0.3
+cmax=+0.3
+powzbin=3. # z bins prop to (1+z)^n
+
+# hostMass
+interp_biascor_logmass=0
+logmass_min=-15
+logmass_max=35
+nbin_logmass=2
+
+# Set lensing to 0 
+lensing_zpar=0
+
+# p is for initial params
+p1=0.14 # alpha0
+p2=3.1 # beta0
+p3=0.0 # alpha = alpha0 + z*alpha1 (default p3=0.0)
+p4=0.0 # beta  = beta0  + z*beta1  (default p4=0.0)
+p5=0.00001 # mag step across hostMass
+p6=0.0 # z-dependence, gamma = gamma0 + z*gamma1 (default p6=0)
+p7=10.0 # logmass split value
+p8=0.001 # logmass width of transition between step
+p9=0.6911 # Omega Lambda for muref
+p10=0.0 # Omega curvature for muref
+p11=-1.0 # w_DE for muref
+p12=0.0 # for w0waCDM model for muref
+p13=0.0
+
+# u is for fix (0) or float (1) parameters
+u1=1 # Fit alpha
+# u2 define in pippin yml
+u3=0
+u4=0
+u5=1 # fit for a mass step
+u6=0
+u7=0
+u8=0
+u9=0
+u10=0
+u11=0
+u12=0
+u13=0
+h0=67.74 # H0 value
+mag0=-30.00 # Initial M0 val
+uave=1 # use avg mag from cosmology (not nommag0)

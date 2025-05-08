@@ -1,0 +1,42 @@
+# % include: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/global_cfg/sim_aliases.yml %
+# % include: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec//pippin_files/global_cfg/analysis_pipeline.yml %
+# % include: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/global_cfg/bbc_aliases.yml %
+# % include: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/global_cfg/external_aliases.yml %
+
+
+ALIAS:
+  MOCK_NUMBER: &mock_number 
+    HOSTLIB_FILE: $SNANA_LSST_USERS/bastienc/UchuuCatalogs/UchuuDR2_UM/SNANA_SIMLIB/baseline_v3.3_10yrs/baseline_v3.3_10yrs_UchuuDR2_UM_z0p00_zmax0p1739_mock_07_SNANA.HOSTLIB
+    SIMLIB_FILE: $SNANA_LSST_USERS/bastienc/UchuuCatalogs/UchuuDR2_UM/SNANA_SIMLIB/baseline_v3.3_10yrs/baseline_v3.3_10yrs_UchuuDR2_UM_z0p00_zmax0p1739_mock_07_SNANA.SIMLIB
+  MOCK_RANDSEED: &mock_randseed
+    RANSEED_REPEAT: 10 7624
+SIM:
+  LSST_RNDSMEAR:
+    IA_SALT2_RNDSMEAR:
+      <<: *salt2_rndsmear
+      <<: *mock_number
+    GLOBAL:
+      <<: *global_simpar
+      <<: *mock_randseed
+  LSST_G10:
+    IA_SALT2_G10:
+      <<: *salt2_g10
+      <<: *mock_number
+    GLOBAL:
+      <<: *global_simpar
+      <<: *mock_randseed
+  LSST_C11:
+    IA_SALT2_C11:
+      <<: *salt2_c11
+      <<: *mock_number
+    GLOBAL:
+      <<: *global_simpar
+      <<: *mock_randseed
+  LSST_P21:
+    IA_SALT2_P21:
+      <<: *salt2_p21
+      <<: *mock_number
+    GLOBAL:
+      <<: *global_simpar
+      <<: *mock_randseed
+  <<: *external_bbc_sim

@@ -1,0 +1,109 @@
+GLOBAL:
+  CFG_PATH: $SNANA_LSST_ROOT/starterKits/pippin/cfg_lsst_perlmutter.yml
+
+ALIAS_SIM:
+  BASE_SIM: &base_sim 
+    BASE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/LSST_UCHUU_sim_cfg.input
+    GENPEAK_SALT2ALPHA:      0.1500  
+    GENSIGMA_SALT2ALPHA:     0  0  
+    GENRANGE_SALT2ALPHA:     1.0000e-03  0.4000
+    GENPDF_OPTMASK:          1
+    HOSTLIB_MSKOPT:          542 # Poisson noise from host gal (+2), use magshift from WGTMAP (+4), use Host coord (+8), adjust SN redshift (+16), and peculiar velocity (+512)
+  G10_BBC_GRID: &g10_grid
+    GENSIGMA_SALT2ALPHA:     1E8  1E8
+    GENRANGE_SALT2ALPHA:     0.10 0.20
+    GENGRID_SALT2ALPHA:      2
+    GENSIGMA_SALT2BETA:      1E8  1E8
+    GENRANGE_SALT2BETA:      2.6  3.6
+    GENGRID_SALT2BETA:       2
+    BIASCOR_SALT2GAMMA_GRID: -0.06  0.06
+  C11_BBC_GRID: &c11_grid 
+    GENSIGMA_SALT2ALPHA:     1E8  1E8
+    GENRANGE_SALT2ALPHA:     0.10 0.24
+    GENGRID_SALT2ALPHA:      2
+    GENSIGMA_SALT2BETA:      1E8  1E8
+    GENRANGE_SALT2BETA:      3.3  4.3
+    GENGRID_SALT2BETA:       2
+    BIASCOR_SALT2GAMMA_GRID: -0.06  0.06
+  BASE_SIM_P21: &base_sim_p21
+    BASE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/LSST_UCHUU_sim_cfg.input
+    GENPDF_FILE: $SNDATA_ROOT/models/population_pdf/DES-SN5YR/DES-SN5YR_LOWZ_S3_P21.DAT.gz
+    GENPDF_OPTMASK: 1
+    HOSTLIB_MSKOPT: 538 # Use gal noise (+2), use Host coord (+8), adjust SN redshift (+16), and peculiar velocity (+512) 
+  SALT2_RNDSMEAR: &salt2_rndsmear
+    <<: *base_sim
+    GENPDF_FILE: $SNDATA_ROOT/models/population_pdf/DES-SN5YR/DES-SN5YR_LOWZ_S3_G10.DAT.gz
+    GENPEAK_SALT2BETA:      3.1  
+    GENSIGMA_SALT2BETA:     0  0  
+    GENRANGE_SALT2BETA:     1.0000e-03  5.0
+    HOSTLIB_WGTMAP_FILE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/FLAT_WGT_MAP_SNMAGSHIFT.WGT
+    GENMAG_SMEAR:           0.12
+  SALT2_G10: &salt2_g10
+    <<: *base_sim
+    GENPDF_FILE: $SNDATA_ROOT/models/population_pdf/DES-SN5YR/DES-SN5YR_LOWZ_S3_G10.DAT.gz
+    GENPEAK_SALT2BETA:      3.1  
+    GENSIGMA_SALT2BETA:     0  0  
+    GENRANGE_SALT2BETA:     1.0000e-03  5.0
+    GENMAG_SMEAR_MODELNAME: G10
+    HOSTLIB_WGTMAP_FILE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/FLAT_WGT_MAP_SNMAGSHIFT.WGT
+  SALT2_C11: &salt2_c11
+    <<: *base_sim
+    GENPDF_FILE: $SNDATA_ROOT/models/population_pdf/C11_pop_pdf/LOWZ_S3_C11.DAT.gz
+    GENPEAK_SALT2BETA:      3.8  
+    GENSIGMA_SALT2BETA:     0  0  
+    GENRANGE_SALT2BETA:     1.0000e-03  5.0
+    GENMAG_SMEAR_MODELNAME: C11
+    HOSTLIB_WGTMAP_FILE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/FLAT_WGT_MAP_SNMAGSHIFT.WGT
+  SALT2_P21: &salt2_p21
+    <<: *base_sim_p21
+  SALT2_RNDSMEAR_BBC: &salt2_rndsmear_bbc
+    <<: *salt2_rndsmear
+    <<: *g10_grid
+    HOSTLIB_MSKOPT:         30
+  SALT2_G10_BBC: &salt2_g10_bbc
+    <<: *salt2_g10
+    <<: *g10_grid
+    HOSTLIB_MSKOPT:         30
+  SALT2_C11_BBC: &salt2_c11_bbc
+    <<: *salt2_c11
+    <<: *c11_grid
+    HOSTLIB_MSKOPT:         30
+  SALT2_P21_BBC: &salt2_p21_bbc
+    <<: *salt2_p21
+    HOSTLIB_MSKOPT:         26
+  SALT2_B20_BBC: &salt2_bs20_bbc
+    <<: *base_sim
+    GENPEAK_SALT2BETA:      2.0
+    GENSIGMA_SALT2BETA:     0.35 0.35
+    GENRANGE_SALT2BETA:     0.4 13
+    GENPEAK_SALT2c:        -0.084
+    GENSIGMA_SALT2c:        0.042  0.042
+    GENRANGE_SALT2c:       -0.40    0.50
+    GENPDF_FILE: $SNDATA_ROOT/models/population_pdf/DES-SN5YR/DES-SN5YR_LOWZ_S3_BS21.DAT.gz
+    HOSTLIB_MSKOPT:         26
+  SALT2_P21SYS1_BBC: &salt2_p21sys1_bbc
+    <<: *base_sim_p21
+    GENPDF_FILE: $SNDATA_ROOT/models/population_pdf/DES-SN5YR/DES-SN5YR_LOWZ_S3_P21sys1.DAT.gz
+    HOSTLIB_MSKOPT:         26
+  SALT2_P21SYS2_BBC: &salt2_p21sys2_bbc
+    <<: *base_sim_p21
+    GENPDF_FILE: $SNDATA_ROOT/models/population_pdf/DES-SN5YR/DES-SN5YR_LOWZ_S3_P21sys2.DAT.gz
+    HOSTLIB_MSKOPT:         26
+  SALT2_P21SYS3_BBC: &salt2_p21sys3_bbc
+    <<: *base_sim_p21
+    GENPDF_FILE: $SNDATA_ROOT/models/population_pdf/DES-SN5YR/DES-SN5YR_LOWZ_S3_P21sys3.DAT.gz
+    HOSTLIB_MSKOPT:         26
+  
+
+  # This section will apply to all components of the sim
+  GLOBAL_SIMPAR: &global_simpar
+    NGEN_UNIT: 0.1
+    BATCH_INFO: sbatch $SBATCH_TEMPLATES/SBATCH_DEFAULT.TEMPLATE 10
+    BATCH_MEM: 16000
+    FORMAT_MASK:  32
+  GLOBAL_SIMPAR_BBC: &global_simpar_bbc
+    NGEN_UNIT: 2.
+    RANSEED_REPEAT: 20 17234
+    BATCH_INFO: sbatch $SBATCH_TEMPLATES/SBATCH_DEFAULT.TEMPLATE 20
+    BATCH_MEM: 32000
+    FORMAT_MASK:  32

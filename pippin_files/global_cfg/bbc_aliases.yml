@@ -1,0 +1,43 @@
+ALIAS_BBC:
+  BBC7D: &bbc7d
+    opt_biascor: 48 # 16 : 5D map of biasCor + 32 : apply MUCOVSCALE vs. z
+    fitflag_sigmb: 2
+    u2: 1 # Fit beta
+    sig1: 0.11
+
+  BBC4D: &bbc4d
+    opt_biascor: 240 # 16 : 5D map of biasCor + 32 : apply MUCOVSCALE vs. z + 128 : bias on MU instead of mB,x1,c
+    fitflag_sigmb: 2
+    u2: 3 # force 1 biasCor beta bin with continuous distribution
+    sig1: 0.04
+    p2: 2.87
+  
+  GLOBAL_BBC: &global_bbc
+    BATCH_INFO: sbatch $SBATCH_TEMPLATES/SBATCH_DEFAULT.TEMPLATE 3
+    BATCH_MEM: 3000
+    BATCH_WALLTIME: "03:00:00"
+  
+  BBC_ROUTINE: &bbc_routine
+    # The base input file to utilise
+    BASE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/bbc_salt2mu_cfg.default
+    OPTS:
+      <<: *global_bbc
+      <<: *bbc7d
+
+  BBC_ROUTINE_P21: &bbc_routine_P21
+    BASE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/bbc_salt2mu_cfg.default
+    MUOPTS:
+      INTRSC_BS20:
+        SIMFILE_BIASCOR: [LSST_FIT_LSST_BS20_BBC]
+      INTRSC_P21SYS1:
+        SIMFILE_BIASCOR: [LSST_FIT_LSST_P21SYS1_BBC]
+      INTRSC_P21SYS2:
+        SIMFILE_BIASCOR: [LSST_FIT_LSST_P21SYS2_BBC]
+      INTRSC_P21SYS3:
+        SIMFILE_BIASCOR: [LSST_FIT_LSST_P21SYS3_BBC]
+      ERRFLOOR:
+        OPTS:
+          opt_biascor: 4336 # 16 : 5D map of biasCor + 32 : apply MUCOVSCALE vs. z + 128 : bias on MU instead of mB,x1,c + 4096 : use error floor for error tuning
+    OPTS:
+      <<: *global_bbc
+      <<: *bbc4d

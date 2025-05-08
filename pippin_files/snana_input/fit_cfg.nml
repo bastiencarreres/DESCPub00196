@@ -1,0 +1,65 @@
+CONFIG:
+    BATCH_INFO: sbatch $SBATCH_TEMPLATES/SBATCH_DEFAULT.TEMPLATE 20
+    VERSION:
+    OUTDIR:
+#END_YAML
+
+&SNLCINP
+    VERSION_PHOTOMETRY = 'replace'
+    KCOR_FILE          = '$SNANA_LSST_ROOT/kcor/2017-04_approx/kcor_LSST.fits'
+
+    PHOTFLAG_MSKREJ   = 0, 0
+    SNTABLE_LIST      = 'FITRES(text:host)'
+    TEXTFILE_PREFIX   = 'replace'
+    ROOTFILE_OUT = 'ROOTFILE.ROOT'
+    
+    USE_MINOS = F
+    NFIT_ITERATION = 3
+    INTERP_OPT     = 1
+
+    ! method to estimate initial PEAKMJD:  16=fmax clump, 4=no abort
+    OPT_SETPKMJD = 20  
+
+    OPT_MWEBV    = 3    ! 3=Schafly2011 update, 2=SFD98, 1=FileDefined
+    RV_MWCOLORLAW = 3.1
+    OPT_MWCOLORLAW  = 99   ! Fitzpatrick99
+
+    ABORT_ON_NOEPOCHS = F
+    ABORT_ON_TRESTCUT = F
+    ABORT_ON_DUPLCID  = F
+
+    CUTWIN_NEPOCH        =  5
+    CUTWIN_TREST     = -20.0,   60.0
+    cutwin_Trestmin  = -9999.0   5.0
+    cutwin_Trestmax  = 5.   99999.
+    CUTWIN_MWEBV     = 0.0 0.25
+
+    CUTWIN_SNRMAX       =  5.0, 1.0E8   ! SNRMAX > 5 ...
+    CUTWIN_NFILT_SNRMAX =  2.0, 99.     ! in at least 2 bands
+
+    OPT_VPEC_COR = 0 ! DISABLE VPEC CORR
+&END
+
+&FITINP
+    FITMODEL_NAME  = 'SALT3.DES5YR'
+    FILTLIST_FIT = 'ugrizY'
+
+    FUDGEALL_ITER1_MAXFRAC = 0.05 ! add .05*Fpeak error on 1st iteration (for stability)
+
+    RESTLAMBDA_FITRANGE = 3000.0 8000.0
+
+    ! correct undefinied cov
+    OPT_COVAR_LCFIT = 1
+
+    ! define loose priors to avoid crazy fit
+    PRIOR_MJDSIG        = 10
+    PRIOR_SHAPE_RANGE = -6.0, 6.0
+
+    FITWIN_SHAPE     = -5.00, +5.00
+    FITWIN_COLOR     = -0.50, +0.50
+    FITWIN_PROB      =  0.0,  1.01
+    FITWIN_TREST     = -15.0, 45.0
+    DELCHI2_REJECT   = 10
+
+    DOFIT_PHOTOZ = F    
+&END
