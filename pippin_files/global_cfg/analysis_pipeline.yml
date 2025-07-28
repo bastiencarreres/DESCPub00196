@@ -8,7 +8,7 @@ LCFIT:
   LSST_FIT:
     MASK: LSST
     # The base nml file used 
-    BASE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/fit_cfg.nml
+    BASE: $DESCPub00196/pippin_files/snana_input/fit_cfg.nml
     OPTS:
       BATCH_INFO: sbatch $SBATCH_TEMPLATES/SBATCH_DEFAULT.TEMPLATE 20
     <<: *external_bbc_fit

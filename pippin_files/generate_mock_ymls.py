@@ -6,10 +6,10 @@ MAIN_SEED = 151219970404202403081997
 rand_gen = np.random.default_rng(MAIN_SEED)
 
 
-YAML_TEXT = """# % include: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/global_cfg/sim_aliases.yml %
-# % include: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec//pippin_files/global_cfg/analysis_pipeline.yml %
-# % include: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/global_cfg/bbc_aliases.yml %
-# % include: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/global_cfg/external_aliases.yml %
+YAML_TEXT = """# % include: $DESCPub00196/pippin_files/global_cfg/sim_aliases.yml %
+# % include: $DESCPub00196/pippin_files/global_cfg/analysis_pipeline.yml %
+# % include: $DESCPub00196/pippin_files/global_cfg/bbc_aliases.yml %
+# % include: $DESCPub00196/pippin_files/global_cfg/external_aliases.yml %
 
 
 ALIAS:

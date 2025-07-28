@@ -3,7 +3,7 @@ GLOBAL:
 
 ALIAS_SIM:
   BASE_SIM: &base_sim 
-    BASE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/LSST_UCHUU_sim_cfg.input
+    BASE: $DESCPub00196/pippin_files/snana_input/LSST_UCHUU_sim_cfg.input
     GENPEAK_SALT2ALPHA:      0.1500  
     GENSIGMA_SALT2ALPHA:     0  0  
     GENRANGE_SALT2ALPHA:     1.0000e-03  0.4000
@@ -26,7 +26,7 @@ ALIAS_SIM:
     GENGRID_SALT2BETA:       2
     BIASCOR_SALT2GAMMA_GRID: -0.06  0.06
   BASE_SIM_P21: &base_sim_p21
-    BASE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/LSST_UCHUU_sim_cfg.input
+    BASE: $DESCPub00196/pippin_files/snana_input/LSST_UCHUU_sim_cfg.input
     GENPDF_FILE: $SNDATA_ROOT/models/population_pdf/DES-SN5YR/DES-SN5YR_LOWZ_S3_P21.DAT.gz
     GENPDF_OPTMASK: 1
     HOSTLIB_MSKOPT: 538 # Use gal noise (+2), use Host coord (+8), adjust SN redshift (+16), and peculiar velocity (+512) 
@@ -36,7 +36,7 @@ ALIAS_SIM:
     GENPEAK_SALT2BETA:      3.1  
     GENSIGMA_SALT2BETA:     0  0  
     GENRANGE_SALT2BETA:     1.0000e-03  5.0
-    HOSTLIB_WGTMAP_FILE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/FLAT_WGT_MAP_SNMAGSHIFT.WGT
+    HOSTLIB_WGTMAP_FILE: $DESCPub00196/pippin_files/snana_input/FLAT_WGT_MAP_SNMAGSHIFT.WGT
     GENMAG_SMEAR:           0.12
   SALT2_G10: &salt2_g10
     <<: *base_sim
@@ -45,7 +45,7 @@ ALIAS_SIM:
     GENSIGMA_SALT2BETA:     0  0  
     GENRANGE_SALT2BETA:     1.0000e-03  5.0
     GENMAG_SMEAR_MODELNAME: G10
-    HOSTLIB_WGTMAP_FILE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/FLAT_WGT_MAP_SNMAGSHIFT.WGT
+    HOSTLIB_WGTMAP_FILE: $DESCPub00196/pippin_files/snana_input/FLAT_WGT_MAP_SNMAGSHIFT.WGT
   SALT2_C11: &salt2_c11
     <<: *base_sim
     GENPDF_FILE: $SNDATA_ROOT/models/population_pdf/C11_pop_pdf/LOWZ_S3_C11.DAT.gz
@@ -53,7 +53,7 @@ ALIAS_SIM:
     GENSIGMA_SALT2BETA:     0  0  
     GENRANGE_SALT2BETA:     1.0000e-03  5.0
     GENMAG_SMEAR_MODELNAME: C11
-    HOSTLIB_WGTMAP_FILE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/FLAT_WGT_MAP_SNMAGSHIFT.WGT
+    HOSTLIB_WGTMAP_FILE: $DESCPub00196/pippin_files/snana_input/FLAT_WGT_MAP_SNMAGSHIFT.WGT
   SALT2_P21: &salt2_p21
     <<: *base_sim_p21
   SALT2_RNDSMEAR_BBC: &salt2_rndsmear_bbc

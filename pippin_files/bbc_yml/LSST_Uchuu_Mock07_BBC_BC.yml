@@ -1,4 +1,4 @@
-# % include: $DESCPub00196/pippin_files/global_cfg//pippin_files/global_cfg/sim_aliases.yml %
+# % include: $DESCPub00196/pippin_files/global_cfg/pippin_files/global_cfg/sim_aliases.yml %
 
 ALIAS:
   MOCK_NUMBER: &mock_number 

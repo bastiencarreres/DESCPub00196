@@ -19,13 +19,13 @@ ALIAS_BBC:
   
   BBC_ROUTINE: &bbc_routine
     # The base input file to utilise
-    BASE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/bbc_salt2mu_cfg.default
+    BASE: $DESCPub00196/pippin_files/snana_input/bbc_salt2mu_cfg.default
     OPTS:
       <<: *global_bbc
       <<: *bbc7d
 
   BBC_ROUTINE_P21: &bbc_routine_P21
-    BASE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/bbc_salt2mu_cfg.default
+    BASE: $DESCPub00196/pippin_files/snana_input/bbc_salt2mu_cfg.default
     MUOPTS:
       INTRSC_BS20:
         SIMFILE_BIASCOR: [LSST_FIT_LSST_BS20_BBC]
