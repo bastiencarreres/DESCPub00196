@@ -1,5 +1,5 @@
-# % include: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/global_cfg/bbc_aliases.yml %
-# % include: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/global_cfg/external_aliases.yml %
+# % include: $DESCPub00196/pippin_files/global_cfg/pippin_files/global_cfg/bbc_aliases.yml %
+# % include: $DESCPub00196/pippin_files/global_cfg/pippin_files/global_cfg/external_aliases.yml %
 
 # ---------------
 # Actions to run

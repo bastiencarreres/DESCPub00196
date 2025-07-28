@@ -1,4 +1,4 @@
-# % include: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/global_cfg/sim_aliases.yml %
+# % include: $DESCPub00196/pippin_files/global_cfg//pippin_files/global_cfg/sim_aliases.yml %
 
 ALIAS:
   MOCK_NUMBER: &mock_number 
@@ -57,7 +57,7 @@ LCFIT:
   LSST_FIT:
     MASK: LSST
     # The base nml file used 
-    BASE: $SNANA_LSST_USERS/bastienc/LSST_SNANA/PaperBBCVpec/pippin_files/snana_input/fit_cfg.nml
+    BASE: $DESCPub00196/pippin_files/global_cfg/pippin_files/snana_input/fit_cfg.nml
     OPTS:
       BATCH_INFO: sbatch $SBATCH_TEMPLATES/SBATCH_DEFAULT.TEMPLATE 50
 
