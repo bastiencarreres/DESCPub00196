@@ -96,6 +96,14 @@ SIM:
     GLOBAL:
       <<: *global_simpar
       <<: *mock_randseed
+  LSST_P21_REDUCED_TAU4:
+    IA_SALT2_REDUCED_TAU4:
+      <<: *base_sim_p21
+      GENPDF_FILE: $DESCPub00196/pippin_files/snana_input/P23_variations/DES-SN5YR_LOWZ_S3_P21_REDUCED_TAU_0_50.DAT
+      <<: *mock_number
+    GLOBAL:
+      <<: *global_simpar
+      <<: *mock_randseed
   LSST_P21_REDUCED_TAU_BETA1:
     IA_SALT2_REDUCED_TAU_BETA1:
       <<: *base_sim_p21
