@@ -15,6 +15,7 @@ pf.limit_numpy(4)
 
 zrange = [0.02, 0.1]
 mock = int(sys.argv[1])
+print(f'Processimg mock {mock:02d}')
 OUTPUT_DIR = '/global/homes/b/bastienc/MY_SNANA_DIR/LSST_SNANA/DESCPub00196/results_p21_var/'
 
 ######################
@@ -35,19 +36,21 @@ pw_dic_class = {'vv': [[kh, ptt * (np.sin(kh * su)/(kh * su))**2]]}
 ############
 
 # VARIATIONS
-KEYS = ['P21', 'P21_NODUST', 'P21_FIXEDBETA', 
-        'P21_REDUCEDTAU1', 'P21_REDUCEDTAU2', 'P21_REDUCEDTAU3',
-        'P21_REDUCEDBETA1', 'P21_REDUCEDBETA2', 'P21_REDUCEDBETA3',
-        'P21_REDUCEDTAUBETA'
+KEYS = [
+    'P21', 
+    'P21_NO_DUST', 'P21_FIXED_BETA', 'P21_FIXED_BETA_NO_DUST',
+    'P21_REDUCED_TAU1','P21_REDUCED_TAU2', 'P21_REDUCED_TAU3', 'P21_REDUCED_TAU4',
+    'P21_REDUCED_BETA1', 'P21_REDUCED_BETA2', 'P21_REDUCED_BETA3',
+    'P21_REDUCED_TAU_BETA1', 'P21_REDUCED_TAU_BETA2', 'P21_REDUCED_TAU_BETA3'
        ]
 
 PIPPIN_DIR = Path(os.environ['PIPPIN_OUTPUT'])
-MOCK_DIR = PIPPIN_DIR / 'LSST_UCHUU_MOCK00_P21_VARIATIONS_BC'
+MOCK_DIR = PIPPIN_DIR / f'LSST_UCHUU_MOCK{mock:02d}_P21_VARIATIONS_BC'
 
 FIT_DIR =  MOCK_DIR / '2_LCFIT'
 
 # ORIGINAL
-MOCK_DIR_ORIGIN = PIPPIN_DIR / f'LSST_UCHUU_MOCK00_BC'
+MOCK_DIR_ORIGIN = PIPPIN_DIR / f'LSST_UCHUU_MOCK{mock:02d}_BC'
 BBC_DIR_ORIGIN = MOCK_DIR_ORIGIN / '6_BIASCOR/LSST_P21/output'
 BBC_FILE_ORIGIN = BBC_DIR_ORIGIN / f'OUTPUT_BBCFIT/FITOPT000_MUOPT000.FITRES.gz'
 
@@ -62,7 +65,7 @@ df_BBC_ORIGIN = df_BBC_ORIGIN[BBC_mask]
 
 CIDarr = df_BBC_ORIGIN.index.values
 for k in KEYS:
-    FIT_FILE = FIT_DIR /  f'LSST_FIT_LSST_{k}/output/PIP_LSST_UCHUU_MOCK00_P21_VARIATIONS_BC_LSST_{k}/FITOPT000.FITRES.gz'
+    FIT_FILE = FIT_DIR /  f'LSST_FIT_LSST_{k}/output/PIP_LSST_UCHUU_MOCK{mock:02d}_P21_VARIATIONS_BC_LSST_{k}/FITOPT000.FITRES.gz'
     df_STDFIT = ascii.read(FIT_FILE).to_pandas().set_index('CID')
     df_STDFIT[df_STDFIT.apply(pf.positive_def, axis=1)]
     CIDarr = np.intersect1d(CIDarr, df_STDFIT.index)
@@ -76,14 +79,14 @@ del df_STDFIT
 # RUN FIT #
 ###########
 
-RES = pf.init_res_dic(fittypes=['TRUE', 'STDFIT'], add_keys=['model'])
+RES = pf.init_res_dic(fittypes=['TRUE', 'STDFIT'], add_keys=['model'], minos=False)
 
 for k in KEYS:
     print(f'STARTING MODEL {k}')
     RES['model'].append(k)
     
     timestarts = time.time()
-    FIT_FILE = FIT_DIR /  f'LSST_FIT_LSST_{k}/output/PIP_LSST_UCHUU_MOCK00_P21_VARIATIONS_BC_LSST_{k}/FITOPT000.FITRES.gz'
+    FIT_FILE = FIT_DIR /  f'LSST_FIT_LSST_{k}/output/PIP_LSST_UCHUU_MOCK{mock:02d}_P21_VARIATIONS_BC_LSST_{k}/FITOPT000.FITRES.gz'
 
     if not FIT_FILE.exists():
         raise ValueError(f'{FIT_FILE} does not exist')
@@ -111,9 +114,11 @@ for k in KEYS:
         pf.parameter_dict_TRUE, 
         pf.likelihood_properties_BBC, 
         kmin,
+        minos=False,
+        n_iter=1
     )
     
-    RES = pf.fill_minuit_RES(RES, minuit_fitter, 'TRUE')
+    RES = pf.fill_minuit_RES(RES, minuit_fitter, 'TRUE', minos=False)
     
     # STANDARD FIT
     minuit_fitter = pf.fit_fs8_stdfit(
@@ -122,14 +127,16 @@ for k in KEYS:
         pw_dic_class, 
         pf.parameter_dict_STDFIT, 
         pf.likelihood_properties_STDFIT,
-        kmin
+        kmin,
+        minos=False,
+        n_iter=1
         )
     
-    RES = pf.fill_minuit_RES(RES, minuit_fitter, 'STDFIT')
+    RES = pf.fill_minuit_RES(RES, minuit_fitter, 'STDFIT', minos=False)
     
     timeends = time.time()
     dtime =  timeends - timestarts
     print(f'fs8 fitted in {dtime//60:.0f}min{dtime%60:.0f}sec\n')
     print('###################################################\n\n')
 
-pd.DataFrame(RES).to_csv(OUTPUT_DIR + f'RES_MOCK00_P21_VAR_zrange_{zrange[0]}_{zrange[1]}_nojax.csv')
+pd.DataFrame(RES).to_csv(OUTPUT_DIR + f'RES_MOCK{mock:02d}_P21_VAR_zrange_{zrange[0]}_{zrange[1]}_nojax.csv')

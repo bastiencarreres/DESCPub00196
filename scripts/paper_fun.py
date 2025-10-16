@@ -372,7 +372,7 @@ def VelEst(z, dmu, dmu_err, cosmo):
 # FIT FS8 FUNCTION #
 ####################
 
-def init_res_dic(fittypes=['BBC', 'TRUE', 'STDFIT'], add_keys=None):
+def init_res_dic(fittypes=['BBC', 'TRUE', 'STDFIT'], add_keys=None,minos=True):
     RES = { 
         'NSN': [],
     }
@@ -390,35 +390,39 @@ def init_res_dic(fittypes=['BBC', 'TRUE', 'STDFIT'], add_keys=None):
             if not parameter_dict_BBC[k]['fixed']:
                 RES[k + '_BBC'] = []
                 RES[k + '_ERR_BBC'] = []
-                RES[k + '_MERR_UP_BBC'] = []
-                RES[k + '_MERR_LOW_BBC'] = []
+                if minos:
+                    RES[k + '_MERR_UP_BBC'] = []
+                    RES[k + '_MERR_LOW_BBC'] = []
                 
     if 'BBCCOV' in fittypes:
         for k in parameter_dict_BBC:
             if not parameter_dict_BBC[k]['fixed']:
                 RES[k + '_BBCCOV'] = []
                 RES[k + '_ERR_BBCCOV'] = []
-                RES[k + '_MERR_UP_BBCCOV'] = []
-                RES[k + '_MERR_LOW_BBCCOV'] = []
+                if minos:
+                    RES[k + '_MERR_UP_BBCCOV'] = []
+                    RES[k + '_MERR_LOW_BBCCOV'] = []
     if 'TRUE' in fittypes:
         for k in parameter_dict_TRUE:
             if not parameter_dict_TRUE[k]['fixed']:
                 RES[k + '_TRUE'] = []
                 RES[k + '_ERR_TRUE'] = []
-                RES[k + '_MERR_UP_TRUE'] = []
-                RES[k + '_MERR_LOW_TRUE'] = []
+                if minos:
+                    RES[k + '_MERR_UP_TRUE'] = []
+                    RES[k + '_MERR_LOW_TRUE'] = []
     
     if 'STDFIT' in fittypes:
         for k in parameter_dict_STDFIT:
             if not parameter_dict_STDFIT[k]['fixed']:
                 RES[k + '_STDFIT'] = [] 
                 RES[k + '_ERR_STDFIT'] = [] 
-                RES[k + '_MERR_UP_STDFIT'] = []
-                RES[k + '_MERR_LOW_STDFIT'] = []
+                if minos:
+                    RES[k + '_MERR_UP_STDFIT'] = []
+                    RES[k + '_MERR_LOW_STDFIT'] = []
 
     return RES
 
-def fill_minuit_RES(RES, minuit_fitter, fittype):
+def fill_minuit_RES(RES, minuit_fitter, fittype, minos=True):
     RES['valid_' + fittype].append(minuit_fitter.minuit.valid)
     RES['accurate_' + fittype].append(minuit_fitter.minuit.accurate)
 
@@ -433,8 +437,9 @@ def fill_minuit_RES(RES, minuit_fitter, fittype):
         if not pdic[p]['fixed']:
             RES[p + '_' + fittype].append(minuit_fitter.minuit.values[p])
             RES[p + '_ERR_' + fittype].append(minuit_fitter.minuit.errors[p])
-            RES[p + '_MERR_UP_' + fittype].append(minuit_fitter.minuit.merrors[p].upper)
-            RES[p + '_MERR_LOW_' + fittype].append(minuit_fitter.minuit.merrors[p].lower)
+            if minos:
+                RES[p + '_MERR_UP_' + fittype].append(minuit_fitter.minuit.merrors[p].upper)
+                RES[p + '_MERR_LOW_' + fittype].append(minuit_fitter.minuit.merrors[p].lower)
     return RES
 
     
@@ -488,7 +493,7 @@ def give_bbc_data(df, cosmo, cov=None, err_scale=1.):
         covariance_observation=cov
         )
 
-def fit_fs8_stdfit(df, cosmo, pw_dic_class, parameter_dict, likelihood_properties, kmin):
+def fit_fs8_stdfit(df, cosmo, pw_dic_class, parameter_dict, likelihood_properties, kmin, minos=True, hesse=True, n_iter=3):
     print('Compute data vector')
     data = give_stdfit_data(df, cosmo)
     print('Compute COV')
@@ -507,12 +512,12 @@ def fit_fs8_stdfit(df, cosmo, pw_dic_class, parameter_dict, likelihood_propertie
         likelihood_properties=likelihood_properties
     )
 
-    minuit_fitter.run(n_iter=3, hesse=True, minos=True)
+    minuit_fitter.run(n_iter=n_iter, hesse=hesse, minos=minos)
     del COV
     return minuit_fitter
 
 
-def fit_fs8_fromBBC(df, cosmo, pw_dic_class, parameter_dict, likelihood_properties, kmin, cov=None, nit=3, hesse=True, minos=True, err_scale=1.):
+def fit_fs8_fromBBC(df, cosmo, pw_dic_class, parameter_dict, likelihood_properties, kmin, cov=None, n_iter=3, hesse=True, minos=True, err_scale=1.):
     print('Compute data vector')
     data = give_bbc_data(df, cosmo, cov=cov, err_scale=err_scale)    
     print('Compute COV')
@@ -536,7 +541,7 @@ def fit_fs8_fromBBC(df, cosmo, pw_dic_class, parameter_dict, likelihood_properti
 
 
 
-def fit_fs8_TRUE(df, cosmo, pw_dic_class, parameter_dict, likelihood_properties, kmin):
+def fit_fs8_TRUE(df, cosmo, pw_dic_class, parameter_dict, likelihood_properties, kmin, minos=True, n_iter=3):
     print('Compute data vector')
     
     data_dic = {
@@ -569,7 +574,7 @@ def fit_fs8_TRUE(df, cosmo, pw_dic_class, parameter_dict, likelihood_properties,
         parameter_dict, 
         likelihood_properties=likelihood_properties)
 
-    minuit_fitter.run(n_iter=3, hesse=True, minos=True)
+    minuit_fitter.run(n_iter=n_iter, hesse=True, minos=minos)
     del COV
     return minuit_fitter
 
